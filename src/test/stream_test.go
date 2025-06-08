@@ -1,9 +1,9 @@
 package test
 
 import (
-	"MVC_DI/util/stream"
 	"reflect"
 	"testing"
+	"users_orchestrator/util/stream"
 )
 
 func Test_ListStream(t *testing.T) {

@@ -1,6 +1,6 @@
 package config
 
-import config_model "MVC_DI/config/model"
+import config_model "users_orchestrator/config/model"
 
 var Application = &config_model.IApplication{}
 

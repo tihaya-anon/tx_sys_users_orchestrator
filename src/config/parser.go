@@ -1,13 +1,13 @@
 package config
 
 import (
-	"MVC_DI/global/module"
-	"MVC_DI/util"
 	"log"
 	"path"
 	"reflect"
 	"strings"
 	"time"
+	"users_orchestrator/global/module"
+	"users_orchestrator/util"
 
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"

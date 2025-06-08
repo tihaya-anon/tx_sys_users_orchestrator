@@ -1,6 +1,6 @@
 package main
 
-import "MVC_DI/cmd"
+import "users_orchestrator/cmd"
 
 func main() {
 	defer cmd.Stop()

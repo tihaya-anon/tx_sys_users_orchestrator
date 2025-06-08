@@ -1,10 +1,10 @@
 package gen
 
 import (
-	"MVC_DI/global"
-	"MVC_DI/global/module"
-	"MVC_DI/util"
 	"path"
+	"users_orchestrator/global"
+	"users_orchestrator/global/module"
+	"users_orchestrator/util"
 )
 
 // # GenerateGinController

@@ -1,8 +1,8 @@
 package resp
 
 import (
-	"MVC_DI/global/enum"
-	"MVC_DI/vo/resp/common"
+	"users_orchestrator/global/enum"
+	"users_orchestrator/vo/resp/common"
 )
 
 type TResponse struct {

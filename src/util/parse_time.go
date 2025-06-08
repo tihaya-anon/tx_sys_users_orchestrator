@@ -1,8 +1,8 @@
 package util
 
 import (
-	config_model "MVC_DI/config/model"
 	"time"
+	config_model "users_orchestrator/config/model"
 )
 
 func GetTime(configTime config_model.Time) time.Duration {

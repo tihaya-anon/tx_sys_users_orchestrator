@@ -1,11 +1,11 @@
 package gen
 
 import (
-	"MVC_DI/config"
-	"MVC_DI/global/module"
 	"log"
 	"path"
 	"strings"
+	"users_orchestrator/config"
+	"users_orchestrator/global/module"
 
 	"github.com/google/uuid"
 

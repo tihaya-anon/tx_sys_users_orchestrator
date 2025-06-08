@@ -1,18 +1,18 @@
 package cmd
 
 import (
-	"MVC_DI/config"
-	"MVC_DI/global/log"
-	test_router "MVC_DI/router/test"
-	test_controller_builder "MVC_DI/section/test/controller/builder"
-	test_mapper_builder "MVC_DI/section/test/mapper/builder"
-	test_service_builder "MVC_DI/section/test/service/builder"
-	"MVC_DI/server"
 	"context"
 	"fmt"
 	"os/signal"
 	"syscall"
 	"time"
+	"users_orchestrator/config"
+	"users_orchestrator/global/log"
+	test_router "users_orchestrator/router/test"
+	test_controller_builder "users_orchestrator/section/test/controller/builder"
+	test_mapper_builder "users_orchestrator/section/test/mapper/builder"
+	test_service_builder "users_orchestrator/section/test/service/builder"
+	"users_orchestrator/server"
 
 	"github.com/gin-gonic/gin"
 )

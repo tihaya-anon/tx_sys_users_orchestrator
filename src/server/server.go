@@ -1,13 +1,13 @@
 package server
 
 import (
-	"MVC_DI/config"
-	"MVC_DI/middleware"
-	"MVC_DI/router"
 	"context"
 	"fmt"
 	"net/http"
 	"time"
+	"users_orchestrator/config"
+	"users_orchestrator/middleware"
+	"users_orchestrator/router"
 
 	"github.com/gin-gonic/gin"
 )

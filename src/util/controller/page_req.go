@@ -1,8 +1,8 @@
 package controller_uitl
 
 import (
-	"MVC_DI/vo/req"
-	"MVC_DI/vo/resp/common"
+	"users_orchestrator/vo/req"
+	"users_orchestrator/vo/resp/common"
 
 	"github.com/gin-gonic/gin"
 )

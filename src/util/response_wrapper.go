@@ -1,7 +1,7 @@
 package util
 
 import (
-	"MVC_DI/vo/resp"
+	"users_orchestrator/vo/resp"
 
 	"github.com/gin-gonic/gin"
 )

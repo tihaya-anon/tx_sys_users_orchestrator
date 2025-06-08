@@ -1,14 +1,14 @@
 package log
 
 import (
-	"MVC_DI/config"
-	"MVC_DI/global/module"
-	"MVC_DI/util/stream"
 	"encoding/json"
 	"fmt"
 	"os"
 	"path"
 	"time"
+	"users_orchestrator/config"
+	"users_orchestrator/global/module"
+	"users_orchestrator/util/stream"
 
 	"github.com/sirupsen/logrus"
 )

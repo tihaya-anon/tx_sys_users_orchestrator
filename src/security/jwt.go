@@ -1,9 +1,9 @@
 package security
 
 import (
-	"MVC_DI/config"
-	"MVC_DI/util"
 	"time"
+	"users_orchestrator/config"
+	"users_orchestrator/util"
 
 	"github.com/golang-jwt/jwt/v5"
 )

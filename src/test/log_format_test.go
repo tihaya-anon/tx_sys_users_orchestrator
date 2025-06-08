@@ -1,9 +1,9 @@
 package test
 
 import (
-	"MVC_DI/global/log"
 	"testing"
 	"time"
+	"users_orchestrator/global/log"
 )
 
 func Test_LogFormat(t *testing.T) {

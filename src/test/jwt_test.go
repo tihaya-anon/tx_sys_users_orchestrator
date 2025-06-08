@@ -1,8 +1,8 @@
 package test
 
 import (
-	"MVC_DI/security"
 	"testing"
+	"users_orchestrator/security"
 )
 
 func Test_JWT(t *testing.T) {

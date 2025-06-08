@@ -1,16 +1,16 @@
 package test
 
 import (
-	"MVC_DI/config"
-	"MVC_DI/util/gen"
 	"testing"
+	"users_orchestrator/config"
+	"users_orchestrator/util/gen"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func Test_Gen(t *testing.T) {
-	gen.Generate("MVC_DI", []string{"user"})
+	gen.Generate("users_orchestrator", []string{"user"})
 }
 func Test_GenQuery(t *testing.T) {
 	gormDB, err := gorm.Open(mysql.Open(config.Application.Database.Uri), &gorm.Config{})
@@ -26,13 +26,13 @@ func Test_MVC(t *testing.T) {
 	Test_GenMapper(t)
 }
 func Test_GenController(t *testing.T) {
-	gen.GenerateGinController("MVC_DI", "section", "test", []string{"test_a"})
+	gen.GenerateGinController("users_orchestrator", "section", "test", []string{"test_a"})
 }
 
 func Test_GenService(t *testing.T) {
-	gen.GenerateService("MVC_DI", "section", "test", []string{"test_a"})
+	gen.GenerateService("users_orchestrator", "section", "test", []string{"test_a"})
 }
 
 func Test_GenMapper(t *testing.T) {
-	gen.GenerateMapper("MVC_DI", "section", "test", []string{"test_a"})
+	gen.GenerateMapper("users_orchestrator", "section", "test", []string{"test_a"})
 }

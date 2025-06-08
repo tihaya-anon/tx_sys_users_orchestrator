@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"MVC_DI/global/enum"
-	"MVC_DI/vo/resp"
-	"MVC_DI/security"
 	"strings"
+	"users_orchestrator/global/enum"
+	"users_orchestrator/security"
+	"users_orchestrator/vo/resp"
 
 	"github.com/gin-gonic/gin"
 )

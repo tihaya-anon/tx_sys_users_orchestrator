@@ -1,10 +1,10 @@
 package config
 
 import (
-	"MVC_DI/util"
 	"reflect"
 	"strconv"
 	"strings"
+	"users_orchestrator/util"
 )
 
 // # Resolve

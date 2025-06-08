@@ -1,13 +1,13 @@
 package gen
 
 import (
-	"MVC_DI/global/module"
-	"MVC_DI/util"
 	"log"
 	"os"
 	"path"
 	"path/filepath"
 	"text/template"
+	"users_orchestrator/global/module"
+	"users_orchestrator/util"
 )
 
 // # GenerateTemplate

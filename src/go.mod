@@ -1,4 +1,4 @@
-module MVC_DI
+module users_orchestrator
 
 go 1.23.5
 
