@@ -1,0 +1,417 @@
+openapi: 3.0.3
+info:
+  title: User Interaction BFF API
+  version: 1.2.0
+  description: Full-featured BFF API for user authentication, profile, sessions, credentials, and security.
+
+servers:
+  - url: https://api.com/bff
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Auth
+    description: Authentication and session-related endpoints
+  - name: User
+    description: User registration and profile
+  - name: Security
+    description: MFA, password resets, and other security settings
+  - name: Session
+    description: Session management and lifecycle
+  - name: Audit
+    description: User activity logging
+
+paths:
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: User login
+      operationId: loginUser
+      security: []  # login should be public
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username: { type: string }
+                password: { type: string }
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  session_id: { type: string }
+        '400':
+          description: Invalid credentials
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: User logout
+      operationId: logoutUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [session_id]
+              properties:
+                session_id: { type: string }
+      responses:
+        '200':
+          description: Logout successful
+        '401':
+          description: Unauthorized
+
+  /user/me:
+    get:
+      tags: [User]
+      summary: Get current user info
+      operationId: getUserProfile
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+
+  /user/register:
+    post:
+      tags: [User]
+      summary: Register new user
+      operationId: registerUser
+      security: []  # public endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password, email]
+              properties:
+                username: { type: string }
+                password: { type: string }
+                email: { type: string }
+      responses:
+        '201':
+          description: User registered
+        '400':
+          description: Invalid input
+
+  /user/permissions:
+    get:
+      tags: [User]
+      summary: Get user permissions
+      operationId: getUserPermissions
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Permissions list
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { type: string }
+        '401':
+          description: Unauthorized
+
+  /user/credentials:
+    get:
+      tags: [User]
+      summary: List credentials
+      operationId: listCredentials
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Credential list
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Credential' }
+        '401':
+          description: Unauthorized
+
+    post:
+      tags: [User]
+      summary: Add new credential
+      operationId: addCredential
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialInput'
+      responses:
+        '200':
+          description: Credential added
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+
+  /security/security-settings:
+    get:
+      tags: [Security]
+      summary: Get security settings
+      operationId: getSecuritySettings
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Security settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecuritySetting'
+        '401':
+          description: Unauthorized
+
+    patch:
+      tags: [Security]
+      summary: Update security settings
+      operationId: updateSecuritySettings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecuritySettingUpdate'
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+
+  /security/mfa/setup:
+    post:
+      tags: [Security]
+      summary: Start MFA enrollment
+      operationId: startMfaEnrollment
+      responses:
+        '200':
+          description: MFA enrollment initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qr_code_url: { type: string }
+                  secret: { type: string }
+        '401':
+          description: Unauthorized
+
+  /security/mfa/verify:
+    post:
+      tags: [Security]
+      summary: Verify MFA code
+      operationId: verifyMfaCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code: { type: string }
+      responses:
+        '200':
+          description: MFA setup confirmed
+        '400':
+          description: Invalid code
+        '401':
+          description: Unauthorized
+
+  /security/password-reset/request:
+    post:
+      tags: [Security]
+      summary: Request password reset
+      operationId: requestPasswordReset
+      security: []  # public endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: { type: string }
+      responses:
+        '200':
+          description: Reset link sent
+        '400':
+          description: Invalid email
+
+  /security/password-reset/confirm:
+    post:
+      tags: [Security]
+      summary: Confirm password reset
+      operationId: confirmPasswordReset
+      security: []  # public endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, new_password]
+              properties:
+                token: { type: string }
+                new_password: { type: string }
+      responses:
+        '200':
+          description: Password updated
+        '400':
+          description: Invalid token or password
+
+  /session:
+    get:
+      tags: [Session]
+      summary: Get current session info
+      operationId: getSessionInfo
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Session info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '401':
+          description: Unauthorized
+
+  /session/revoke:
+    post:
+      tags: [Session]
+      summary: Revoke session
+      operationId: revokeSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [session_id]
+              properties:
+                session_id: { type: string }
+      responses:
+        '200':
+          description: Session revoked
+        '401':
+          description: Unauthorized
+
+  /audit/log:
+    get:
+      tags: [Audit]
+      summary: Get user activity log
+      operationId: getAuditLog
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Audit log
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp: { type: string, format: date-time }
+                    action: { type: string }
+                    ip_address: { type: string }
+        '401':
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id: { type: string }
+        username: { type: string }
+        email: { type: string }
+        display_name: { type: string }
+        created_at: { type: string, format: date-time }
+
+    Credential:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string }
+        identifier: { type: string }
+        created_at: { type: string, format: date-time }
+
+    CredentialInput:
+      type: object
+      required: [type, identifier, secret]
+      properties:
+        type: { type: string }
+        identifier: { type: string }
+        secret: { type: string }
+
+    SecuritySetting:
+      type: object
+      properties:
+        mfa_enabled: { type: boolean }
+        password_last_changed: { type: string, format: date-time }
+        recovery_email: { type: string }
+
+    SecuritySettingUpdate:
+      type: object
+      properties:
+        mfa_enabled: { type: boolean }
+        recovery_email: { type: string }
+
+    Session:
+      type: object
+      properties:
+        session_id: { type: string }
+        user_id: { type: string }
+        created_at: { type: string, format: date-time }
+        last_seen: { type: string, format: date-time }
+        ip_address: { type: string }
