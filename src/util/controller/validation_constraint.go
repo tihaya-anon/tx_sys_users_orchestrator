@@ -14,8 +14,10 @@ func BindValidation[T any](ctx *gin.Context) (*T, *common.ValidationError) {
 	if err != nil {
 		if validationErrors, ok := err.(validator.ValidationErrors); ok {
 			field, msg := getValidationMsg(validationErrors, &bind)
-			return nil, &common.ValidationError{Field: field, Msg: msg}
+			validationErr := common.ValidationError{Field: field, Msg: msg}
+			return nil, &validationErr
 		}
+		return nil, &common.ValidationError{Msg: "missing data"}
 	}
 	return &bind, nil
 }

@@ -7,7 +7,9 @@ import (
 	"time"
 	"users_orchestrator/config"
 	"users_orchestrator/global/log"
+	auth_router "users_orchestrator/router/auth"
 	test_router "users_orchestrator/router/test"
+	auth_controller_builder "users_orchestrator/section/auth/controller/builder"
 	test_controller_builder "users_orchestrator/section/test/controller/builder"
 	test_mapper_builder "users_orchestrator/section/test/mapper/builder"
 	test_service_builder "users_orchestrator/section/test/service/builder"
@@ -22,6 +24,10 @@ func bindController() {
 	testAController := test_controller_builder.NewTestAControllerBuilder().WithTestAService(testAService).Build()
 	testAController.Logger = log.GetLogger(24 * time.Hour)
 	test_router.BindTestAController(testAController)
+
+	authController := auth_controller_builder.NewAuthControllerBuilder().Build()
+	authController.Logger = log.GetLogger(24 * time.Hour)
+	auth_router.BindAuthController(authController)
 }
 
 func startServer(publicPath, authPath string, engine *gin.Engine, timeOut time.Duration) {
