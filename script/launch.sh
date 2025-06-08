@@ -8,7 +8,4 @@ cd "$SCRIPT_DIR"
 trap 'exit 0' SIGINT
 
 # Build the Go program
-cd ../src && go build -o ../build/main.exe main.go && cd ..
-
-# Run the program
-./build/main.exe
+cd ../src && go build -o ../build/main.exe main.go && cd .. && ./build/main.exe
