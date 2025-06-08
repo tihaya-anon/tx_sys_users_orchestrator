@@ -2,10 +2,10 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 	"users_orchestrator/config"
+	"users_orchestrator/global/log"
 	"users_orchestrator/middleware"
 	"users_orchestrator/router"
 
@@ -36,21 +36,23 @@ func (s *Server) Setup(publicPath, authPath string, engine *gin.Engine) {
 }
 
 func (s *Server) Run() {
+	logger := log.GetLogger(24 * time.Hour)
 	go func() {
 		if err := s.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			fmt.Printf("Start server failed: %s\n", err)
+			logger.Errorf("Start server failed: %s", err)
 			return
 		}
 	}()
 }
 
 func (s *Server) Stop(timeOut time.Duration) {
+	logger := log.GetLogger(24 * time.Hour)
 	ctx, cancelShutdowm := context.WithTimeout(context.Background(), timeOut)
 	defer cancelShutdowm()
 
 	if err := s.server.Shutdown(ctx); err != nil {
-		fmt.Printf("Server shutdown failed: %s\n", err)
+		logger.Errorf("Server shutdown failed: %s", err)
 		return
 	}
-	fmt.Println("Server shutdown successfully")
+	logger.Infof("Server shutdown successfully")
 }

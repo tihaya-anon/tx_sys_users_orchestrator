@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	"os/signal"
 	"syscall"
 	"time"
@@ -39,20 +38,21 @@ func startServer(publicPath, authPath string, engine *gin.Engine, timeOut time.D
 }
 
 func Start() {
-	fmt.Println("============= START =============")
+	logger := log.GetLogger(24 * time.Hour)
+	logger.Infof("============= START =============")
 	bindController()
 	gin.SetMode(gin.ReleaseMode)
 	engine := gin.New()
 	engine.Use(gin.Recovery())
-	fmt.Printf("activate profile: %s\n", config.Application.Env)
-	fmt.Printf("listen to: %s\n", config.Application.App.Uri)
+	logger.Infof("activate profile: %s", config.Application.Env)
+	logger.Infof("listen to: %s", config.Application.App.Uri)
 	publicPath := "/api/v1/public"
 	authPath := "/api/v1/auth"
-	fmt.Printf("public path: %s\n", publicPath)
-	fmt.Printf("auth path: %s\n", authPath)
+	logger.Debugf("public path: %s", publicPath)
+	logger.Debugf("auth path: %s", authPath)
 	startServer(publicPath, authPath, engine, 5*time.Second)
 }
 
 func Stop() {
-	fmt.Println("============= STOP =============")
+	log.GetLogger(24 * time.Hour).Infof("============= STOP =============")
 }

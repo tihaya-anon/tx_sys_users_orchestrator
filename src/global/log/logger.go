@@ -35,7 +35,7 @@ func (f *ConsoleFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 		message = fmt.Sprintf("%s %s=%s", message, key, val)
 	}
 	message = fmt.Sprintf("%s `%s`", message, entry.Message)
-	logLine := fmt.Sprintf("%s %s %s\n\t%s %s", time, level, caller, arrow, message)
+	logLine := fmt.Sprintf("%s %s %s %s %s", time, level, caller, arrow, message)
 
 	if stack != nil {
 		stack = levelColorMap[entry.Level].Sprintf("%s", entry.Data["stack"])
